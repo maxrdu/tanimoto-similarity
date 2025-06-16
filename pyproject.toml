@@ -6,13 +6,10 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "cython>=3.1.2",
-    "jupyter>=1.1.1",
-    "matplotlib>=3.10.3",
     "numba>=0.61.2",
     "numpy>=2.2.6",
     "rdkit>=2025.3.3",
     "scipy>=1.15.3",
-    "seaborn>=0.13.2",
     "torch>=2.7.0",
 ]
 
@@ -33,5 +30,7 @@ torch = [
 
 [dependency-groups]
 dev = [
+    "notebook>=7.4.3",
     "pytest>=8.4.0",
+    "seaborn>=0.13.2",
 ]
