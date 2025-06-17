@@ -6,6 +6,7 @@ from .torch import _tanimoto_similarity as torch_tanimoto_similarity
 from .torch import _tanimoto_similarity_dot as torch_tanimoto_similarity_dot
 from .rdkit import _tanimoto_similarity as rdkit_tanimoto_similarity
 from .numpy import _tanimoto_similarity as numpy_tanimoto_similarity
+from .numpy import _tanimoto_similarity_dot as numpy_tanimoto_similarity_dot
 from .numba import _tanimoto_similarity as numba_tanimoto_similarity
 
 
@@ -15,7 +16,7 @@ _torch_tanimoto_similarity_cmp = compile(torch_tanimoto_similarity)
 def tanimoto_similarity(
         A: List,
         B: List,
-        method: Literal["torch", "rdkit", "numpy", "scipy", "numba", "torch-compile", "torch-dot"] = "rdkit",
+        method: Literal["torch", "rdkit", "numpy", "numpy-dot", "scipy", "numba", "torch-compile", "torch-dot"] = "rdkit",
         convert: bool = True
     ):
     """
@@ -30,6 +31,10 @@ def tanimoto_similarity(
         import numpy as np
         A = np.array([list(fp) for fp in A], dtype=np.bool_)
         B = np.array([list(fp) for fp in B], dtype=np.bool_)
+    elif convert and method == "numpy-dot":
+        import numpy as np
+        A = np.array([list(fp) for fp in A], dtype=np.float32)
+        B = np.array([list(fp) for fp in B], dtype=np.float32)
     elif convert and method in ["torch", "torch-compile"]:
         import torch
         A = torch.tensor([list(fp) for fp in A]).bool()
@@ -49,7 +54,8 @@ def tanimoto_similarity(
         return torch_tanimoto_similarity_dot(A, B)
     elif method == "numpy":
         return numpy_tanimoto_similarity(A, B)
-
+    elif method == "numpy-dot":
+        return numpy_tanimoto_similarity_dot(A, B)
     elif method == "scipy":
         from scipy.spatial.distance import cdist
         return 1 - cdist(A, B, metric="jaccard")

@@ -33,3 +33,12 @@ def _tanimoto_similarity(A: np.ndarray, B: np.ndarray):
     tanimoto_similarity = masked_a_int_b / (broadcast_A + broadcast_B - masked_a_int_b)
     
     return tanimoto_similarity
+
+def _tanimoto_similarity_dot(A, B):
+    dot_prod = np.matmul(A, B.T)
+    x1_norm = np.sum(A**2, axis=-1, keepdims=True)
+    x2_norm = np.sum(B**2, axis=-1, keepdims=True)
+
+    return dot_prod / (
+        x1_norm + x2_norm.T - dot_prod 
+    )
