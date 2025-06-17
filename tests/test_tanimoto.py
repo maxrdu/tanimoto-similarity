@@ -101,7 +101,7 @@ def ground_truths(fingerprints):
     }
 
 
-@pytest.mark.parametrize("method", ["rdkit", "torch", "numpy", "scipy"])
+@pytest.mark.parametrize("method", ["rdkit", "torch", "numpy", "scipy", "numba", "torch-dot"])
 @pytest.mark.parametrize("input_key,expected_key", [
     ("all_all", "all"),
     ("simple_pharma", "simple_pharma"),
