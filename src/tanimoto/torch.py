@@ -28,3 +28,12 @@ def _tanimoto_similarity(A: torch.Tensor, B: torch.Tensor):
     broadcast_B = sum_B.unsqueeze(1).repeat(1, n).T
     tanimoto_similarity = masked_a_int_b/(broadcast_A + broadcast_B - masked_a_int_b)
     return tanimoto_similarity
+
+def _tanimoto_similarity_dot(A, B):
+    dot_prod = torch.matmul(A, torch.transpose(B, -1, -2))
+    x1_norm = torch.sum(A**2, dim=-1, keepdims=True)
+    x2_norm = torch.sum(B**2, dim=-1, keepdims=True)
+
+    return dot_prod / (
+        x1_norm + torch.transpose(x2_norm, -1, -2) - dot_prod
+    )
